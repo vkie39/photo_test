@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:photo_town/screens/login.dart';
+import 'signup_detail.dart';
 
 
 // StatefulWidget을 상속받아 회원가입 시작 화면 정의 시작
@@ -106,9 +107,18 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                   const SizedBox(height: 15), // 간격 설정
                   // 이메일 확인 버튼
                   ElevatedButton(
-                    onPressed: () {
-                      // 이메일 확인 처리
-                    },
+                    onPressed: hasText
+                        ? () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignupDetailScreen(
+                                  email: emailController.text.trim(),
+                                ),
+                              ),
+                            );
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: hasText
                           ? Color(0xFFDBEFC4)
