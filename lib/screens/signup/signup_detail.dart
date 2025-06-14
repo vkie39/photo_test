@@ -3,7 +3,7 @@ import '../../services/auth_service.dart';
 
 class SignupDetailScreen extends StatefulWidget {
   final String email;
-  const SignupDetailScreen({Key? key, required this.email}) : super(key: key);
+  const SignupDetailScreen({super.key, required this.email});
 
   @override
   State<SignupDetailScreen> createState() => _SignupDetailScreenState();
@@ -44,7 +44,7 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
                   }
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('회원가입 실패: ' + e.toString())),
+                    SnackBar(content: Text('회원가입 실패: $e')),
                   );
                 }
               },
