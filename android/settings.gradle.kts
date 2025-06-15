@@ -14,12 +14,17 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
+    plugins {
+        id("com.google.gms.google-services") version "4.4.2" // ✅ 추가 필요!
+    }
 }
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
     id("com.android.application") version "8.7.3" apply false
     id("org.jetbrains.kotlin.android") version "2.1.0" apply false
+    // 🔴 여기에 다시 id("com.google.gms.google-services") 추가할 필요는 없습니다!
 }
 
 include(":app")
