@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:photo_town/screens/login.dart';
+import 'package:photo_town/screens/signup/signup_detail.dart';
 
 
 // StatefulWidget을 상속받아 회원가입 시작 화면 정의 시작
@@ -13,29 +14,6 @@ class SignupStartScreen extends StatefulWidget {
 }
 
 class _SignupStartScreenState extends State<SignupStartScreen> {
-  final TextEditingController emailController = TextEditingController();
-  bool hasText = false;
-
-  @override
-  void initState() {
-    super.initState();
-    emailController.addListener(() {
-      final text = emailController.text;
-      final currentlyHasText = text.isNotEmpty;
-      if (currentlyHasText != hasText) {
-        setState(() {
-          hasText = currentlyHasText;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     // 이메일 입력을 받기 위한 컨트롤러
@@ -54,17 +32,18 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                 horizontal: 32.0,
                 vertical: 40.0,
               ), // 좌우 설정 및 상하 설정
-              child: Column(
-                mainAxisSize: MainAxisSize.min, // ✅ 자식 크기만큼만 세로 공간 차지
-                crossAxisAlignment: CrossAxisAlignment.stretch, // 전체 너비 사용
-                children: [
-                  const SizedBox(height: 20), // 상단 여백
-
-                  const Text(
-                    "처음 방문하셨나요?",
-                    textAlign: TextAlign.center, // 센터 정렬
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
-                  ),
+              child: Container(
+                // color: Colors.blue.withOpacity(0.2), // 컨테이너 확인용
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, // 자식 크기만큼만 세로 공간 차지
+                  crossAxisAlignment: CrossAxisAlignment.stretch, // 전체 너비 사용
+                  children: [
+                    const SizedBox(height: 20), // 상단 여백
+                    const Text(
+                      "처음 방문하셨나요?",
+                      textAlign: TextAlign.center, // 센터 정렬
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                    ),
 
                   const SizedBox(height: 4), // 간격 설정
 
@@ -75,61 +54,51 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                   ),
 
                   const SizedBox(height: 25), // 간격 설정
-                  // 이메일 설정에 맞지 않으면 빨간 테두리 설정.. < 프론트 역할? 백엔드 역할?
-                  TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      hintText: '이메일을 입력하세요', // 입력 전 문구 설정
-                      hintStyle: TextStyle(
-                        color: Color.fromARGB(255, 128, 128, 128),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: BorderSide(color: Color(0xFFE0E0E0)),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 12,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 192, 192, 192),
-                          width: 1.5,
-                        ), // 클릭된 경우 테두리 색 ..
-                      ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 15), // 간격 설정
-                  // 이메일 확인 버튼
-                  ElevatedButton(
+                  // 이메일로 시작하기 버튼
+                  OutlinedButton(
                     onPressed: () {
-                      // 이메일 확인 처리
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          // signup_detail 스크린으로 변경
+                          builder: (context) => const SignupDetailScreen(),
+                        ),
+                      );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: hasText
-                          ? Color(0xFFDBEFC4)
-                          : Color(0xFFE0E0E0), // 입력 전, 입력 후 버튼 색상 변경
-                      foregroundColor: hasText
-                          ? Colors.black
-                          : const Color.fromARGB(
-                              255,
-                              82,
-                              82,
-                              82,
-                            ), // 입력 전, 입력 후 텍스트 색상 변경
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color(0xFFDBEFC4),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4), // 라운딩 설정
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      side: BorderSide.none,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // 마땅한 이미지 선택을 아직 X
+                          // Image.asset(
+                          //   'assets/images/.png', // png 파일 업로드
+                          //   width: 20,
+                          //   height: 20,
+                          // ),
+                          // const SizedBox(width: 12),
+                          const Text(
+                            "이메일로 시작하기",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    child: const Text("확인"),
                   ),
-                  
-                  const SizedBox(height: 25), // 간격 설정
 
+                  const SizedBox(height: 25), // 간격 설정
                   // 소셜 로그인 구분선
                   const Row(
                     children: [
@@ -171,12 +140,13 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min, // 콘텐츠 크기에 맞춰 정렬
                         children: [
-                          Image.asset(
-                            'assets/images/google.png',
-                            width: 20,
-                            height: 20,
-                          ),
-                          const SizedBox(width: 7), // 이미지와 텍스트 사이 간격
+                          // 이미지 변경하고 주석 풀 예정..
+                          // Image.asset(
+                          //   'assets/images/google.png',
+                          //   width: 20,
+                          //   height: 20,
+                          // ),
+                          // const SizedBox(width: 7), // 이미지와 텍스트 사이 간격
                           const Text(
                             "Google로 시작하기",
                             style: TextStyle(
@@ -190,18 +160,20 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                   ),
 
                   const SizedBox(height: 7),
-                    
-                  // 카카오 로그인
+
+                  // 마이크로소프트 로그인
                   OutlinedButton(
                     onPressed: () {
-                      // 카카오 로그인 API 호출 처리
+                      // 마이크로소프트 로그인 API 호출 처리
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Color(0xFFFAE301),
+                      backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      side: BorderSide.none,
+                      side: BorderSide(
+                        color: Color.fromARGB(255, 192, 192, 192),
+                      ),
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
@@ -209,14 +181,14 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset(
-                            'assets/images/kakao.png',
-                            width: 20,
-                            height: 20,
-                          ),
-                          const SizedBox(width: 12),
+                          // Image.asset(
+                          //   'assets/images/kakao.png',
+                          //   width: 20,
+                          //   height: 20,
+                          // ),
+                          // const SizedBox(width: 12),
                           const Text(
-                            "카카오로 시작하기",
+                            "Mycrosoft로 시작하기",
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -227,42 +199,43 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  // const SizedBox(height: 8),
 
-                  OutlinedButton(
-                    onPressed: () {
-                      // 네이버 로그인 API 호출 처리
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Color(0xFF2BC622),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      side: BorderSide.none,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/images/naver.jpg',
-                            width: 30,
-                            height: 30,
-                          ),
-                          const SizedBox(width: 12),
-                          const Text(
-                            "네이버로 시작하기",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // OutlinedButton(
+                  //   onPressed: () {
+                  //     // 네이버 로그인 API 호출 처리
+                  //   },
+                  //   style: OutlinedButton.styleFrom(
+                  //     backgroundColor: Color(0xFF2BC622),
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(4),
+                  //     ),
+                  //     side: BorderSide.none,
+                  //     elevation: 0,
+                  //     padding: const EdgeInsets.symmetric(vertical: 8),
+                  //   ),
+                  //   child: Center(
+                  //     child: Row(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         // 이미지 변경하고 주석 풀 예정..
+                  //         // Image.asset(
+                  //         //   'assets/images/naver.jpg',
+                  //         //   width: 30,
+                  //         //   height: 30,
+                  //         // ),
+                  //         // const SizedBox(width: 12),
+                  //         const Text(
+                  //           "네이버로 시작하기",
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontWeight: FontWeight.w600,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
 
                   const SizedBox(height: 20), // 간격 설정
                   // 계정이 이미 있는 사용자 등.. 로그인 화면으로 이동
@@ -302,7 +275,7 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 70), // 간격 설정
+                  const SizedBox(height: 90), // 간격 설정
                   // 비회원 로그인 또는 건너뛰기 버튼 (작업 진행 X) -> 메인 화면
                   GestureDetector(
                     onTap: () {
@@ -319,7 +292,8 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                       ),
                     ),
                   ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

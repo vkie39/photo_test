@@ -62,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 50),
 
                   TextField(
+                    // 아이디컨트롤러로 수정해야함
                     controller: emailController,
                     decoration: InputDecoration(
                       hintText: '아이디 입력',
@@ -126,23 +127,24 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         : null,
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.disabled)) {
+                      elevation: WidgetStateProperty.all(0), // ← 그림자 제거
+                      backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                        (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.disabled)) {
                             return const Color(0xFFE0E0E0); // 비활성 상태 배경색
                           }
                           return const Color(0xFFDBEFC4); // 활성 상태 배경색
                         },
                       ),
-                      foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.disabled)) {
+                      foregroundColor: WidgetStateProperty.resolveWith<Color>(
+                        (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.disabled)) {
                             return const Color.fromARGB(255, 82, 82, 82); // 비활성 텍스트 색
                           }
                           return Colors.black; // 활성 텍스트 색
                         },
                       ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -288,12 +290,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min, // 콘텐츠 크기에 맞춰 정렬
                         children: [
-                          Image.asset(
-                            'assets/images/google.png',
-                            width: 20,
-                            height: 20,
-                          ),
-                          const SizedBox(width: 7), // 이미지와 텍스트 사이 간격
+                          // Image.asset(
+                          //   'assets/images/google.png',
+                          //   width: 20,
+                          //   height: 20,
+                          // ),
+                          // const SizedBox(width: 7), // 이미지와 텍스트 사이 간격
                           const Text(
                             "Google로 시작하기",
                             style: TextStyle(
@@ -308,17 +310,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 7),
 
-                  // 카카오 로그인
+                  // 마이크로소프트 로그인
                   OutlinedButton(
                     onPressed: () {
-                      // 카카오 로그인 API 호출 처리
+                      // 마이크로소프트 로그인 API 호출 처리
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Color(0xFFFAE301),
+                      backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      side: BorderSide.none,
+                      side: BorderSide(
+                        color: Color.fromARGB(255, 192, 192, 192),
+                      ),
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
@@ -326,14 +330,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset(
-                            'assets/images/kakao.png',
-                            width: 20,
-                            height: 20,
-                          ),
-                          const SizedBox(width: 12),
+                          // Image.asset(
+                          //   'assets/images/kakao.png',
+                          //   width: 20,
+                          //   height: 20,
+                          // ),
+                          // const SizedBox(width: 12),
                           const Text(
-                            "카카오로 시작하기",
+                            "Mycrosoft로 시작하기",
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -344,43 +348,43 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  // const SizedBox(height: 8),
                   
-                  // 네이버 로그인
-                  OutlinedButton(
-                    onPressed: () {
-                      // 네이버 로그인 API 호출 처리
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Color(0xFF2BC622),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      side: BorderSide.none,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/images/naver.jpg',
-                            width: 30,
-                            height: 30,
-                          ),
-                          const SizedBox(width: 12),
-                          const Text(
-                            "네이버로 시작하기",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // // 네이버 로그인
+                  // OutlinedButton(
+                  //   onPressed: () {
+                  //     // 네이버 로그인 API 호출 처리
+                  //   },
+                  //   style: OutlinedButton.styleFrom(
+                  //     backgroundColor: Color(0xFF2BC622),
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(4),
+                  //     ),
+                  //     side: BorderSide.none,
+                  //     elevation: 0,
+                  //     padding: const EdgeInsets.symmetric(vertical: 8),
+                  //   ),
+                  //   child: Center(
+                  //     child: Row(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         Image.asset(
+                  //           'assets/images/naver.jpg',
+                  //           width: 30,
+                  //           height: 30,
+                  //         ),
+                  //         const SizedBox(width: 12),
+                  //         const Text(
+                  //           "네이버로 시작하기",
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontWeight: FontWeight.w600,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

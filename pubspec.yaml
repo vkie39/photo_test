@@ -63,6 +63,7 @@ flutter:
     - assets/images/kakao.png
     - assets/images/naver.jpg
     - assets/images/google.png
+    - assets/images/left_arrow.png
 
   # assets:
   #   - images/a_dot_burr.jpeg
