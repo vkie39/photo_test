@@ -159,21 +159,21 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
     });
   }
 
-  void _validatePasswordConfirm(String value) {
-  String? error;
+  // void _validatePasswordConfirm(String value) {
+  // String? error;
 
-  if (value.isEmpty) {
-    error = '비밀번호를 다시 입력해주세요.';
-  } else if (value != passwordController.text) {
-    error = '비밀번호가 일치하지 않습니다.';
-  } else {
-    error = null;
-  }
+  // if (value.isEmpty) {
+  //   error = '비밀번호를 다시 입력해주세요.';
+  // } else if (value != passwordController.text) {
+  //   error = '비밀번호가 일치하지 않습니다.';
+  // } else {
+  //   error = null;
+  // }
 
-  setState(() {
-    passwordConfirmErrorText = error;
-    });
-  }
+  // setState(() {
+  //   passwordConfirmErrorText = error;
+  //   });
+  // }
 
 
 
