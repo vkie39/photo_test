@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:photo_town/screens/login.dart';
 import 'signup_detail.dart';
+<<<<<<< HEAD
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+=======
 import 'package:photo_town/screens/signup/signup_detail.dart';
 
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
 
-
-// StatefulWidget을 상속받아 회원가입 시작 화면 정의 시작
-// 버튼 등에 변화가 생겨서 수정함
 class SignupStartScreen extends StatefulWidget {
   const SignupStartScreen({super.key});
 
@@ -16,20 +18,78 @@ class SignupStartScreen extends StatefulWidget {
 }
 
 class _SignupStartScreenState extends State<SignupStartScreen> {
+<<<<<<< HEAD
+  final TextEditingController emailController = TextEditingController();
+  bool hasText = false;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(() {
+      final text = emailController.text;
+      final currentlyHasText = text.isNotEmpty;
+      if (currentlyHasText != hasText) {
+        setState(() {
+          hasText = currentlyHasText;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  // ✅ 구글 로그인 처리 함수
+  Future<void> _signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return; // 로그인 취소
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // 로그인 성공 후 메인 화면으로 이동 (경로 수정 가능)
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google 로그인 실패: $e')),
+      );
+    }
+  }
+
+=======
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
   @override
   Widget build(BuildContext context) {
-    // 이메일 입력을 받기 위한 컨트롤러
-
     return Scaffold(
-      // 시스템 UI(노치 등)를 피하기 위해 SafeArea 사용함
-      // SafeArea는 화면의 안전한 영역(노치, 상태바, 홈 버튼 등을 피하기) 안에서만 UI를 그려주도록 제한해주는 위젯
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
-          // 화면 중앙에 배치
           child: SingleChildScrollView(
-            // 키보드 대응 및 오버플로 방지
             child: Padding(
+<<<<<<< HEAD
+              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 40.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 20),
+                  const Text(
+                    "처음 방문하셨나요?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                  ),
+                  const SizedBox(height: 4),
+=======
               padding: const EdgeInsets.symmetric(
                 horizontal: 32.0,
                 vertical: 40.0,
@@ -49,31 +109,69 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
 
                   const SizedBox(height: 4), // 간격 설정
 
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
                   const Text(
                     "회원가입을 위해 이메일을 입력해주세요",
-                    textAlign: TextAlign.center, // 센터 정렬
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   ),
+<<<<<<< HEAD
+                  const SizedBox(height: 25),
+                  TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      hintText: '이메일을 입력하세요',
+                      hintStyle: TextStyle(
+                        color: Color.fromARGB(255, 128, 128, 128),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: BorderSide(color: Color(0xFFE0E0E0)),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 12,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 192, 192, 192),
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+=======
 
                   const SizedBox(height: 25), // 간격 설정
 
 
                   const SizedBox(height: 15), // 간격 설정
                   // 이메일 확인 버튼
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
                   ElevatedButton(
                     onPressed: hasText
                         ? () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignupDetailScreen(
-                                  email: emailController.text.trim(),
-                                ),
-                              ),
-                            );
-                          }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignupDetailScreen(
+                            email: emailController.text.trim(),
+                          ),
+                        ),
+                      );
+                    }
                         : null,
                     style: ElevatedButton.styleFrom(
+<<<<<<< HEAD
+                      backgroundColor: hasText ? Color(0xFFDBEFC4) : Color(0xFFE0E0E0),
+                      foregroundColor: hasText ? Colors.black : Color.fromARGB(255, 82, 82, 82),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+=======
                       backgroundColor: hasText
                           ? Color(0xFFDBEFC4)
                           : Color(0xFFE0E0E0), // 입력 전, 입력 후 버튼 색상 변경
@@ -126,37 +224,41 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                             ),
                           ),
                         ],
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
                       ),
                     ),
                   ),
+<<<<<<< HEAD
+                  const SizedBox(height: 25),
+
+=======
 
                   const SizedBox(height: 25), // 간격 설정
                   // 소셜 로그인 구분선
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
                   const Row(
                     children: [
-                      Expanded(child: Divider()), // 좌측 선
+                      Expanded(child: Divider()),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          "  or  ",
+                          "  또는  ",
                           style: TextStyle(
                             color: Color.fromARGB(255, 112, 112, 112),
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
                           ),
-                        ), // 가운데 텍스트
+                        ),
                       ),
-                      Expanded(child: Divider()), // 우측 선
+                      Expanded(child: Divider()),
                     ],
                   ),
 
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 7),
 
-                  // 구글 로그인
+                  // ✅ 구글 로그인 버튼
                   OutlinedButton(
-                    onPressed: () {
-                      // 구글 로그인 API 호출 처리
-                    },
+                    onPressed: _signInWithGoogle,
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -170,8 +272,16 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                     ),
                     child: Center(
                       child: Row(
-                        mainAxisSize: MainAxisSize.min, // 콘텐츠 크기에 맞춰 정렬
+                        mainAxisSize: MainAxisSize.min,
                         children: [
+<<<<<<< HEAD
+                          Image.asset(
+                            'assets/images/google.png',
+                            width: 20,
+                            height: 20,
+                          ),
+                          const SizedBox(width: 7),
+=======
                           // 이미지 변경하고 주석 풀 예정..
                           // Image.asset(
                           //   'assets/images/google.png',
@@ -179,6 +289,7 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                           //   height: 20,
                           // ),
                           // const SizedBox(width: 7), // 이미지와 텍스트 사이 간격
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
                           const Text(
                             "Google로 시작하기",
                             style: TextStyle(
@@ -191,6 +302,10 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                     ),
                   ),
 
+<<<<<<< HEAD
+                  const SizedBox(height: 20),
+
+=======
                   const SizedBox(height: 7),
 
                   // 마이크로소프트 로그인
@@ -271,17 +386,13 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
 
                   const SizedBox(height: 20), // 간격 설정
                   // 계정이 이미 있는 사용자 등.. 로그인 화면으로 이동
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Color.fromARGB(
-                          255,
-                          128,
-                          128,
-                          128,
-                        ), // "이미 회원이신가요?" 스타일
+                        color: Color.fromARGB(255, 128, 128, 128),
                         fontWeight: FontWeight.w300,
                       ),
                       children: [
@@ -289,12 +400,11 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                         TextSpan(
                           text: " 로그인하기",
                           style: const TextStyle(
-                            color: Colors.black, // 로그인하기는 강조
+                            color: Colors.black,
                             fontWeight: FontWeight.w500,
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              // 로그인 이동 로직 설정
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -306,14 +416,18 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                       ],
                     ),
                   ),
+<<<<<<< HEAD
+                  const SizedBox(height: 70),
+=======
 
                   const SizedBox(height: 90), // 간격 설정
                   // 비회원 로그인 또는 건너뛰기 버튼 (작업 진행 X) -> 메인 화면
+>>>>>>> 8a27950a66ca3b627c816d1ffc2bcbc833d22c4d
                   GestureDetector(
                     onTap: () {
-                      // 비회원으로 진입
+                      // 비회원 진입 로직
                     },
-                    behavior: HitTestBehavior.translucent, // 텍스트 외에는 터치 무시
+                    behavior: HitTestBehavior.translucent,
                     child: const Text(
                       "건너뛰기",
                       textAlign: TextAlign.center,
