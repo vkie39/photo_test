@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +10,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final AuthService _authService = AuthService();
 
   bool isEmailFilled = false;
   bool isPasswordFilled = false;
@@ -124,18 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   ElevatedButton(
                     onPressed: isFormFilled
-                        ? () async {
-                            try {
-                              await _authService.signIn(
-                                emailController.text.trim(),
-                                passwordController.text.trim(),
-                              );
-                              // TODO: navigate to the next screen after login
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('로그인 실패: ' + e.toString())),
-                              );
-                            }
+                        ? () {
+                            // 로그인 처리
                           }
                         : null,
                     style: ButtonStyle(

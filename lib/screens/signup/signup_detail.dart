@@ -1,71 +1,17 @@
 import 'package:flutter/material.dart';
-
-import '../../services/auth_service.dart';
-
-class SignupDetailScreen extends StatefulWidget {
-  final String email;
-  const SignupDetailScreen({super.key, required this.email});
 import 'package:flutter/services.dart';
 import 'package:photo_town/widgets/id_input.dart';
+import 'package:photo_town/widgets/pw_input.dart';
 import 'package:photo_town/widgets/terms_checkbox.dart';
 
 class SignupDetailScreen extends StatefulWidget {
   const SignupDetailScreen({super.key});
-
 
   @override
   State<SignupDetailScreen> createState() => _SignupDetailScreenState();
 }
 
 class _SignupDetailScreenState extends State<SignupDetailScreen> {
-
-  final TextEditingController passwordController = TextEditingController();
-  final AuthService _authService = AuthService();
-
-  @override
-  void dispose() {
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('비밀번호 설정')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: '비밀번호'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () async {
-                final password = passwordController.text.trim();
-                if (password.isEmpty) return;
-                try {
-                  await _authService.signUp(widget.email, password);
-                  if (mounted) {
-                    Navigator.popUntil(context, ModalRoute.withName('/login'));
-                  }
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('회원가입 실패: $e')),
-                  );
-                }
-              },
-              child: const Text('회원가입 완료'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmController =
@@ -85,6 +31,7 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
   bool isIdValid = false;
 
   String? passwordErrorText;
+  String? passwordConfirmErrorText;
 
   bool get isSignupEnabled {
     // 조건
@@ -159,10 +106,8 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
   }
 
   void _updateAllAgree() {
-  isAllAgreed = isAgreeTerms &&
-                isAgreePrivacy &&
-                isAgreeMarketing &&
-                isAgreeSmsEmail;
+    isAllAgreed =
+        isAgreeTerms && isAgreePrivacy && isAgreeMarketing && isAgreeSmsEmail;
   }
 
   void _validateId(String value) {
@@ -184,53 +129,51 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
       error = null;
     }
 
-  setState(() {
-    idErrorText = error;
-    isIdValid = error == null;
+    setState(() {
+      idErrorText = error;
+      isIdValid = error == null;
     });
   }
 
   void _validatePassword(String value) {
-  String? error;
-  final RegExp startsWithNumber = RegExp(r'^[0-9]');
-  final RegExp allowedChars = RegExp(r'^[a-zA-Z0-9!*#]+$'); // ! * # 
+    String? error;
+    final RegExp startsWithNumber = RegExp(r'^[0-9]');
+    final RegExp allowedChars = RegExp(r'^[a-zA-Z0-9!*#]+$'); // ! * #
 
-  if (value.isEmpty) {
-    error = '비밀번호를 입력해주세요.';
-  } else if (startsWithNumber.hasMatch(value)) {
-    error = '비밀번호는 숫자로 시작할 수 없습니다.';
-  } else if (!allowedChars.hasMatch(value)) {
-    error = '특수 문자는 ! * # 만 허용됩니다.';
-  } else if (value.length < 8) {
-    error = '비밀번호는 최소 8자 이상이어야 합니다.';
-  } else if (value.length > 20) {
-    error = '비밀번호는 최대 20자까지만 가능합니다.';
-  } else {
-    error = null;
-  }
-  
-  setState(() {
-    passwordErrorText = error;
+    if (value.isEmpty) {
+      error = '비밀번호를 입력해주세요.';
+    } else if (startsWithNumber.hasMatch(value)) {
+      error = '비밀번호는 숫자로 시작할 수 없습니다.';
+    } else if (!allowedChars.hasMatch(value)) {
+      error = '특수 문자는 ! * # 만 허용됩니다.';
+    } else if (value.length < 8) {
+      error = '비밀번호는 최소 8자 이상이어야 합니다.';
+    } else if (value.length > 20) {
+      error = '비밀번호는 최대 20자까지만 가능합니다.';
+    } else {
+      error = null;
+    }
+
+    setState(() {
+      passwordErrorText = error;
     });
   }
 
-  // void _validatePasswordConfirm(String value) {
-  // String? error;
+  void _validatePasswordConfirm(String value) {
+    String? error;
 
-  // if (value.isEmpty) {
-  //   error = '비밀번호를 다시 입력해주세요.';
-  // } else if (value != passwordController.text) {
-  //   error = '비밀번호가 일치하지 않습니다.';
-  // } else {
-  //   error = null;
-  // }
+    if (value.isEmpty) {
+      error = '비밀번호를 다시 입력해주세요.';
+    } else if (value != passwordController.text) {
+      error = '비밀번호가 일치하지 않습니다.';
+    } else {
+      error = null;
+    }
 
-  // setState(() {
-  //   passwordConfirmErrorText = error;
-  //   });
-  // }
-
-
+    setState(() {
+      passwordConfirmErrorText = error;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -278,78 +221,13 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
                 const SizedBox(height: 16),
 
                 // 비밀번호 입력
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  onChanged: (value) {
-                    _validatePassword(value);
-                  },
-                  decoration: InputDecoration(
-                    isDense: true,
-                    hintText: '비밀번호 입력',
-                    hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 128, 128, 128),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: BorderSide(
-                        color: passwordErrorText != null ? Colors.red : Color(0xFFC0C0C0),
-                        width: 1.5,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: BorderSide(
-                        color: passwordErrorText != null ? Colors.red : Colors.black,
-                        width: 1.5,
-                      ),
-                    ),
-                  ),
-                ),
-                if (passwordErrorText != null) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    passwordErrorText!,
-                    style: const TextStyle(color: Colors.red, fontSize: 12),
-                  ),
-                ],
-
-                const SizedBox(height: 16),
-
-                // 비밀번호 재확인 입력
-                TextField(
-                  controller: passwordConfirmController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: '비밀번호 다시 입력',
-                    hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 128, 128, 128),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 192, 192, 192),
-                      ),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 12,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                        width: 1.5,
-                      ),
-                    ),
-                  ),
+                PwInputWidget(
+                  passwordController: passwordController,
+                  passwordConfirmController: passwordConfirmController,
+                  passwordErrorText: passwordErrorText,
+                  passwordConfirmErrorText: passwordConfirmErrorText,
+                  onPasswordChanged: _validatePassword,
+                  onPasswordConfirmChanged: _validatePasswordConfirm,
                 ),
 
                 const SizedBox(height: 16),

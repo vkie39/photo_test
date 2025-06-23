@@ -35,22 +35,22 @@ class TermsCheckboxWidget extends StatelessWidget {
         // 전체 동의
         GestureDetector(
           behavior: HitTestBehavior.opaque,
-            onTap: onAllAgreeTap,
-            child: Row(
-              children: [
-                styledCheckbox(value: isAllAgreed, onTap: onAllAgreeTap),
-                const SizedBox(width: 8),
-                Text(
-                  "약관 전체 동의",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: isAllAgreed ? FontWeight.bold : FontWeight.w400,
-                    color: isAllAgreed ? Colors.black : const Color(0xFFE0E0E0),
-                  ),
+          onTap: onAllAgreeTap,
+          child: Row(
+            children: [
+              styledCheckbox(value: isAllAgreed, onTap: onAllAgreeTap),
+              const SizedBox(width: 8),
+              Text(
+                "약관 전체 동의",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: isAllAgreed ? FontWeight.bold : FontWeight.w400,
+                  color: isAllAgreed ? Colors.black : const Color(0xFFE0E0E0),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+        ),
 
         // 구분선
         const Padding(
@@ -77,7 +77,7 @@ class TermsCheckboxWidget extends StatelessWidget {
             ],
           ),
         ),
-        
+
         const SizedBox(height: 16),
 
         // 필수 약관 2
@@ -92,8 +92,12 @@ class TermsCheckboxWidget extends StatelessWidget {
                 "개인정보 수집 • 이용 동의 (필수)",
                 style: TextStyle(
                   fontSize: 15,
-                  fontWeight: isAgreePrivacy ? FontWeight.bold : FontWeight.w400,
-                  color: isAgreePrivacy ? Colors.black : const Color(0xFFE0E0E0),
+                  fontWeight: isAgreePrivacy
+                      ? FontWeight.bold
+                      : FontWeight.w400,
+                  color: isAgreePrivacy
+                      ? Colors.black
+                      : const Color(0xFFE0E0E0),
                 ),
               ),
             ],
@@ -127,7 +131,7 @@ class TermsCheckboxWidget extends StatelessWidget {
         const SizedBox(height: 16),
 
         // 선택 약관 2
-       GestureDetector(
+        GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onSmsEmailTap,
           child: Row(
@@ -138,13 +142,17 @@ class TermsCheckboxWidget extends StatelessWidget {
                 "SMS 및 이메일 수신 동의 (선택)",
                 style: TextStyle(
                   fontSize: 15,
-                  fontWeight: isAgreeSmsEmail ? FontWeight.bold : FontWeight.w400,
-                  color: isAgreeSmsEmail ? Colors.black : const Color(0xFFE0E0E0),
+                  fontWeight: isAgreeSmsEmail
+                      ? FontWeight.bold
+                      : FontWeight.w400,
+                  color: isAgreeSmsEmail
+                      ? Colors.black
+                      : const Color(0xFFE0E0E0),
                 ),
               ),
             ],
           ),
-       ),
+        ),
       ],
     );
   }

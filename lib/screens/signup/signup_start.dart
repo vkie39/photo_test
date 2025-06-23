@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:photo_town/screens/login.dart';
-import 'signup_detail.dart';
 import 'package:photo_town/screens/signup/signup_detail.dart';
-
 
 
 // StatefulWidget을 상속받아 회원가입 시작 화면 정의 시작
@@ -57,35 +55,6 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
 
                   const SizedBox(height: 25), // 간격 설정
 
-
-                  const SizedBox(height: 15), // 간격 설정
-                  // 이메일 확인 버튼
-                  ElevatedButton(
-                    onPressed: hasText
-                        ? () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignupDetailScreen(
-                                  email: emailController.text.trim(),
-                                ),
-                              ),
-                            );
-                          }
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: hasText
-                          ? Color(0xFFDBEFC4)
-                          : Color(0xFFE0E0E0), // 입력 전, 입력 후 버튼 색상 변경
-                      foregroundColor: hasText
-                          ? Colors.black
-                          : const Color.fromARGB(
-                              255,
-                              82,
-                              82,
-                              82,
-                            ), // 입력 전, 입력 후 텍스트 색상 변경
-
                   // 이메일로 시작하기 버튼
                   OutlinedButton(
                     onPressed: () {
@@ -99,7 +68,6 @@ class _SignupStartScreenState extends State<SignupStartScreen> {
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: const Color(0xFFDBEFC4),
-
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),

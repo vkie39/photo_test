@@ -41,18 +41,14 @@ class IdInputWidget extends StatelessWidget {
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
                       borderSide: BorderSide(
-                        color: idErrorText != null 
-                        ? Colors.red 
-                        : const Color.fromARGB(
-                                            255,
-                                            192,
-                                            192,
-                                            192,
-                                            ),
+                        color: idErrorText != null ? Colors.red : Color(0xFFC0C0C0),
+                        width: 1.5,
                       ),
                     ),
-                    contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
                       borderSide: BorderSide(
