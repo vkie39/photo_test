@@ -15,7 +15,7 @@ class SignupDetailScreen extends StatefulWidget {
 class _SignupDetailScreenState extends State<SignupDetailScreen> {
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final AuthService _authService = AuthService();
+  final AuthService _authService = AuthService(); //firebase fign up API
   final TextEditingController passwordConfirmController =
       TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
@@ -444,7 +444,8 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
                       return;
                     }
 
-                    try {
+                    //회원 가입 로직
+                    try { 
                       await _authService.signUp(
                         emailController.text,
                         passwordController.text,

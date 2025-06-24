@@ -10,6 +10,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // 로그인, 로그아웃하는 데 사용되는 인스턴스
   final AuthService _authService = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -123,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 15),
 
+                  //로그인 처리
                   ElevatedButton(
                     onPressed: isFormFilled
                         ? () async {
@@ -131,6 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 emailController.text,
                                 passwordController.text,
                               );
+                              // 위젯이 아직 마운트되어 있으면 홈으로 이동
                               if (context.mounted) {
                                 Navigator.pushReplacement(
                                   context,
