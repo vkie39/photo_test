@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
+import 'home.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -8,6 +10,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthService _authService = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -122,8 +125,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   ElevatedButton(
                     onPressed: isFormFilled
-                        ? () {
-                            // 로그인 처리
+                        ? () async {
+                            try {
+                              await _authService.signIn(
+                                emailController.text,
+                                passwordController.text,
+                              );
+                              if (context.mounted) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                                );
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('로그인 실패: ' + e.toString())),
+                                );
+                              }
+                            }
                           }
                         : null,
                     style: ButtonStyle(

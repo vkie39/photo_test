@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photo_town/widgets/id_input.dart';
+import '../../services/auth_service.dart';
 import 'package:photo_town/widgets/pw_input.dart';
 import 'package:photo_town/widgets/terms_checkbox.dart';
 
@@ -14,6 +15,7 @@ class SignupDetailScreen extends StatefulWidget {
 class _SignupDetailScreenState extends State<SignupDetailScreen> {
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
   final TextEditingController passwordConfirmController =
       TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
@@ -442,7 +444,24 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
                       return;
                     }
 
-                    // 가입하기 로직
+                    try {
+                      await _authService.signUp(
+                        emailController.text,
+                        passwordController.text,
+                      );
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('회원가입 완료')),
+                        );
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('회원가입 실패: ' + e.toString())),
+                        );
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isSignupEnabled
