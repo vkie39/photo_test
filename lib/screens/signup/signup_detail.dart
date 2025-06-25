@@ -177,6 +177,32 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
     });
   }
 
+  Future<void> _checkDuplicateId() async {
+    final id = idController.text.trim();
+    if (id.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('아이디를 입력해주세요.')));
+      return;
+    }
+
+    try {
+      final isAvailable = await _authService.isUsernameAvailable(id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isAvailable ? '사용 가능한 아이디입니다.' : '이미 사용 중인 아이디입니다.',
+          ),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('중복 확인 실패: ' + e.toString())),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,10 +240,7 @@ class _SignupDetailScreenState extends State<SignupDetailScreen> {
                   idController: idController,
                   idErrorText: idErrorText,
                   onChanged: _validateId,
-                  onCheckDuplicate: () {
-                    // TODO: 중복 확인 API 호출 또는 유효성 검사
-                    print("아이디 중복 확인: ${idController.text}");
-                  },
+                  onCheckDuplicate: _checkDuplicateId,
                 ),
 
                 const SizedBox(height: 16),
