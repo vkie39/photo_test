@@ -21,6 +21,16 @@ class AuthService {
     return credential;
   }
 
+  /// Returns true if [username] is not taken by any other user.
+  Future<bool> isUsernameAvailable(String username) async {
+    final query = await _db
+        .collection('users')
+        .where('username', isEqualTo: username)
+        .limit(1)
+        .get();
+    return query.docs.isEmpty;
+  }
+
   Future<void> signOut() => _auth.signOut();
 
   Stream<User?> get userChanges => _auth.userChanges();
