@@ -21,7 +21,7 @@ class AuthService {
     return credential;
   }
 
-  /// Returns true if [username] is not taken by any other user.
+  //username 사용 가능하면 전달
   Future<bool> isUsernameAvailable(String username) async {
     final query = await _db
         .collection('users')

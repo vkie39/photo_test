@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:photo_town/screens/login.dart';
 import 'package:photo_town/screens/signup/signup_detail.dart';
 
-
 // StatefulWidget을 상속받아 회원가입 시작 화면 정의 시작
 // 버튼 등에 변화가 생겨서 수정함
 class SignupStartScreen extends StatefulWidget {
